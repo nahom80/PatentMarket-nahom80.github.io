@@ -1,5 +1,5 @@
 // @TODO: Update this address to match your deployed PatentMarket contract!
-const contractAddress = "0xB6961186Fa277f99B4f13a60Ee0e79a8198e6076";
+const contractAddress = "0xc83d537af0aa1071bd44bB2a487A98EaB8053498";
 
 const dApp = {
   ethEnabled: function() {
@@ -16,29 +16,29 @@ const dApp = {
   collectVars: async function() {
     // get Patent tokens
     this.tokens = [];
-   // this.totalSupply = await this.marsContract.methods.totalSupply().call();    //*EDIT*
-   this.totalSupply = await this.marsContract.methods.totalSupply().call();
+   // this.totalSupply = await this.patentContract.methods.totalSupply().call();    //*EDIT*
+   this.totalSupply = await this.patentContract.methods.totalSupply().call();
 
     // fetch json metadata from IPFS (name, description, image, etc)
     const fetchMetadata = (reference_uri) => fetch(`https://gateway.pinata.cloud/ipfs/${reference_uri.replace("ipfs://", "")}`, { mode: "cors" }).then((resp) => resp.json());
 
     for (let i = 1; i <= this.totalSupply; i++) {
       try {
-        const token_uri = await this.marsContract.methods.tokenURI(i).call();
+        const token_uri = await this.patentContract.methods.tokenURI(i).call();
         console.log('token uri', token_uri)
         const token_json = await fetchMetadata(token_uri);
         console.log('token json', token_json)
         this.tokens.push({
           tokenId: i,
-          highestBid: Number(await this.marsContract.methods.highestBid(i).call()),
-          auctionEnded: Boolean(await this.marsContract.methods.auctionEnded(i).call()),
-          pendingReturn: Number(await this.marsContract.methods.pendingReturn(i, this.accounts[0]).call()),
+          highestBid: Number(await this.patentContract.methods.highestBid(i).call()),
+          auctionEnded: Boolean(await this.patentContract.methods.auctionEnded(i).call()),
+          pendingReturn: Number(await this.patentContract.methods.pendingReturn(i, this.accounts[0]).call()),
           auction: new window.web3.eth.Contract(
             this.auctionJson,
-            await this.marsContract.methods.auctions(i).call(),
+            await this.patentContract.methods.auctions(i).call(),
             { defaultAccount: this.accounts[0] }
           ),
-          owner: await this.marsContract.methods.ownerOf(i).call(),
+          owner: await this.patentContract.methods.ownerOf(i).call(),
           ...token_json
         });
       } catch (e) {
@@ -95,13 +95,13 @@ const dApp = {
   bid: async function(event) {
     const tokenId = $(event.target).attr("id");
     const wei = Number($(event.target).prev().val());
-    await this.marsContract.methods.bid(tokenId).send({from: this.accounts[0], value: wei}, async () => {
+    await this.patentContract.methods.bid(tokenId).send({from: this.accounts[0], value: wei}, async () => {
       await this.updateUI();
     });
   },
   endAuction: async function(event) {
     const tokenId = $(event.target).attr("id");
-    await this.marsContract.methods.endAuction(tokenId).send({from: this.accounts[0]}, async () => {
+    await this.patentContract.methods.endAuction(tokenId).send({from: this.accounts[0]}, async () => {
       await this.updateUI();
     });
   },
@@ -111,7 +111,8 @@ const dApp = {
       await this.updateUI();
     });
   },
-  registerLand: async function() {
+
+  registerPatent: async function() {
     const name = $("#dapp-register-name").val();
     const image = document.querySelector('input[type="file"]');
 
@@ -122,7 +123,7 @@ const dApp = {
       M.toast({ html: "Please fill out then entire form!" });
       return;
     }
-
+    
     const image_data = new FormData();
     image_data.append("file", image.files[0]);
     image_data.append("pinataOptions", JSON.stringify({cidVersion: 1}));
@@ -167,7 +168,7 @@ const dApp = {
       M.toast({ html: `Success. Reference URI located at ${reference_uri}.` });
       M.toast({ html: "Sending to blockchain..." });
 
-      await this.marsContract.methods.registerLand(reference_uri).send({from: this.accounts[0]}, async () => {
+      await this.patentContract.methods.registerPatent(reference_uri).send({from: this.accounts[0]}, async () => {
         $("#dapp-register-name").val("");
         $("#dapp-register-image").val("");
         await this.updateUI();
@@ -186,17 +187,17 @@ const dApp = {
     this.accounts = await window.web3.eth.getAccounts();
     this.contractAddress = contractAddress;
 
-    this.marsJson = await (await fetch("./PatentMarket.json")).json();
+    this.patentJson = await (await fetch("./PatentMarket.json")).json();
     this.auctionJson = await (await fetch("./PatentAuction.json")).json();
 
-    this.marsContract = new window.web3.eth.Contract(
-      this.marsJson,
+    this.patentContract = new window.web3.eth.Contract(
+      this.patentJson,
       this.contractAddress,
       { defaultAccount: this.accounts[0] }
     );
-    console.log("Contract object", this.marsContract);
+    console.log("Contract object", this.patentContract);
 
-    this.isAdmin = this.accounts[0] == await this.marsContract.methods.owner().call();
+    this.isAdmin = this.accounts[0] == await this.patentContract.methods.owner().call();
 
     await this.updateUI();
   }
