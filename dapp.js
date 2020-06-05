@@ -79,7 +79,7 @@ const dApp = {
 		
 
 		<span id="dapp-name" class="card-title">${token.name} - ${token.tokenId} </span>
-		<!-- <span id="dapp-tokenid" class="card-title">${token.tokenId}</span> -->
+		
 	                
 		</div>
                 <div class="card-action">
