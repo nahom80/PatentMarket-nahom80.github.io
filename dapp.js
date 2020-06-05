@@ -74,12 +74,12 @@ const dApp = {
                 <div class="card-image">
                   <img id="dapp-image" src="https://gateway.pinata.cloud/ipfs/${token.image.replace("ipfs://", "")}">
 
-		//ADDED BELOW
+		<!-- ADDED BELOW -->
 		<span id="dapp-name" class="card-title">${token.name} - ${token.tokenId}</span>
-		//END ADDED
+		<!-- END ADDED --> 
 
-		// <span id="dapp-name" class="card-title">${token.name}</span>
-		// <span id="dapp-tokenid" class="card-title">${token.tokenId}</span>
+		<!-- <span id="dapp-name" class="card-title">${token.name}</span> -->
+		<!-- <span id="dapp-tokenid" class="card-title">${token.tokenId}</span> -->
 	                
 		</div>
                 <div class="card-action">
