@@ -172,6 +172,7 @@ const dApp = {
 
       await this.patentContract.methods.registerPatent(reference_uri).send({from: this.accounts[0]}, async () => {
         $("#dapp-register-name").val("");
+	$("#dapp-register-category").val("");
         $("#dapp-register-image").val("");
         await this.updateUI();
       });
