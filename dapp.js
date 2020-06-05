@@ -117,6 +117,8 @@ const dApp = {
   registerPatent: async function() {
     const name = $("#dapp-register-name").val();
     const image = document.querySelector('input[type="file"]');
+    const rCategory = $("#dapp-register-category").val();
+	  
 
     const pinata_api_key = $("#dapp-pinata-api-key").val();
     const pinata_secret_api_key = $("#dapp-pinata-secret-api-key").val();
@@ -149,7 +151,7 @@ const dApp = {
       M.toast({ html: "Uploading JSON..." });
 
       const reference_json = JSON.stringify({
-        pinataContent: { name, image: image_uri },
+        pinataContent: { name, rCategory, image: image_uri },
         pinataOptions: {cidVersion: 1}
       });
 
