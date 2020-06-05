@@ -119,6 +119,24 @@
 		<div class="card blue-lighten darken-1">
 		  <div class="card-content black-text">
 			<span class="card-title"><input id="dapp-register-name" placeholder="Patent name..." /></span>
+			
+		<!-- THIS PART ADD CATEGORY FOR PATENTS -->
+			<input id="dapp-register-category" input list="pCats" name="pCats" placeholder="Category">
+			<datalist id="pCats">
+			<option value="G06C">
+			<option value="G06D">
+			<option value="G06E">
+			<option value="G06F">
+			<option value="G06G">
+			<option value="G06J">
+			<option value="G06K">
+			<option value="G06M">
+			<option value="G06N">
+			<option value="G06Q">
+			<option value="G06T">
+			</datalist>
+		<!-- *END* THIS PART ADD CATEGORY FOR PATENTS -->	  				
+			  
 			<p>Image: <input id="dapp-copyright-image" type="file" /></p>
   
 			<p><input id="dapp-register-category" placeholder="Patent Category"/></p>
