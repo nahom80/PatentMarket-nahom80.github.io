@@ -1,5 +1,5 @@
 // @TODO: Update this address to match your deployed PatentMarket contract!
-const contractAddress = "0x91ec676788C0ED2E2761908aE666B79FF7CdcDd0";
+const contractAddress = "0xB866FeFC1D1d1ce8E16cBf3017A6B9c036932912";
 document.getElementById("dispContractAddress").innerHTML = contractAddress;
 
 const dApp = {
