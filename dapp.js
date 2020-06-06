@@ -1,10 +1,4 @@
-// Added jsquery 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-// END ADD
-
 // @TODO: Update this address to match your deployed PatentMarket contract!
-
-
 const contractAddress = "0x91ec676788C0ED2E2761908aE666B79FF7CdcDd0";
 document.getElementById("dispContractAddress").innerHTML = contractAddress;
 
@@ -29,15 +23,8 @@ const dApp = {
     // fetch json metadata from IPFS (name, description, image, etc)
     const fetchMetadata = (reference_uri) => fetch(`https://gateway.pinata.cloud/ipfs/${reference_uri.replace("ipfs://", "")}`, { mode: "cors" }).then((resp) => resp.json());
 
-
-	  
-	  
-	  
-	  
     for (let i = 1; i <= this.totalSupply; i++) {
       try {
-	      
-	      
         const token_uri = await this.patentContract.methods.tokenURI(i).call();
         console.log('token uri', token_uri)
         const token_json = await fetchMetadata(token_uri);
@@ -86,30 +73,19 @@ const dApp = {
               <div class="card">
                 <div class="card-image">
                   <img id="dapp-image" src="https://gateway.pinata.cloud/ipfs/${token.image.replace("ipfs://", "")}">
-
-		
-		
-		
-
-		<span id="dapp-name" class="card-title">${token.name}</span>
-		
-		
-	                
-		</div>
+                  <span id="dapp-name" class="card-title">${token.name}</span>
+		  <span id="dapp-tokenid" class="card-title">${token.tokenId}</span>
+                </div>
                 <div class="card-action">
                   <input type="number" min="${token.highestBid + 1}" name="dapp-wei" value="${token.highestBid + 1}" ${token.auctionEnded ? 'disabled' : ''}>
-    		  ${token.category}              
-		  ${token.auctionEnded ? owner : bid}
+                  ${token.auctionEnded ? owner : bid}
                   ${token.pendingReturn > 0 ? withdraw : ''}
                   ${token.pendingReturn > 0 ? pendingWithdraw : ''}
                   ${this.isAdmin && !token.auctionEnded ? endAuction : ''}
                 </div>
               </div>
             </div>`
-		  
           );
-	      	      
-	      
       } catch (e) {
         alert(JSON.stringify(e));
       }
