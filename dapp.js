@@ -29,6 +29,7 @@ const dApp = {
         console.log('token uri', token_uri)
         const token_json = await fetchMetadata(token_uri);
         console.log('token json', token_json)
+	console.log('token Category', token_json.rCategory)
         this.tokens.push({
           tkIdp1: i+1,
 	  tokenId: i,
