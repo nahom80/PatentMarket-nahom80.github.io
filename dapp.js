@@ -32,7 +32,7 @@ const dApp = {
 	console.log('token Category', token_json.rCategory)
         this.tokens.push({
 	  tokenId: i,
-	  tokenCat: i+100,  
+	  tokenCat: token_json.rCategory,  
           highestBid: Number(await this.patentContract.methods.highestBid(i).call()),
           auctionEnded: Boolean(await this.patentContract.methods.auctionEnded(i).call()),
           pendingReturn: Number(await this.patentContract.methods.pendingReturn(i, this.accounts[0]).call()),
