@@ -93,7 +93,12 @@ const dApp = {
                 </div>
               </div>
             </div>`
+		  
           );
+	      // added this 
+	      alert(JSON.stringify(TOKEN_JSON, null, 4));
+	      
+	      
       } catch (e) {
         alert(JSON.stringify(e));
       }
