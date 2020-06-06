@@ -1,4 +1,10 @@
+// Added jsquery 
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+// END ADD
+
 // @TODO: Update this address to match your deployed PatentMarket contract!
+
+
 const contractAddress = "0x91ec676788C0ED2E2761908aE666B79FF7CdcDd0";
 document.getElementById("dispContractAddress").innerHTML = contractAddress;
 
@@ -23,8 +29,22 @@ const dApp = {
     // fetch json metadata from IPFS (name, description, image, etc)
     const fetchMetadata = (reference_uri) => fetch(`https://gateway.pinata.cloud/ipfs/${reference_uri.replace("ipfs://", "")}`, { mode: "cors" }).then((resp) => resp.json());
 
+
+	  
+	  
+	  
+	  
     for (let i = 1; i <= this.totalSupply; i++) {
       try {
+	      
+	        // ADDED
+		$.getJSON(token_uri, function(data) {
+    			var pCat =  `${data.rCategory}`
+      			document.getElementById("pCategory").innerHTML = pCat
+      			$(".mypanel").html(pCat);
+		});
+		// END ADD	      
+	      
         const token_uri = await this.patentContract.methods.tokenURI(i).call();
         console.log('token uri', token_uri)
         const token_json = await fetchMetadata(token_uri);
@@ -34,7 +54,9 @@ const dApp = {
           highestBid: Number(await this.patentContract.methods.highestBid(i).call()),
           auctionEnded: Boolean(await this.patentContract.methods.auctionEnded(i).call()),
           pendingReturn: Number(await this.patentContract.methods.pendingReturn(i, this.accounts[0]).call()),
-          auction: new window.web3.eth.Contract(
+          category: pCat,
+	
+	  auction: new window.web3.eth.Contract(
             this.auctionJson,
             await this.patentContract.methods.auctions(i).call(),
             { defaultAccount: this.accounts[0] }
@@ -85,7 +107,7 @@ const dApp = {
 		</div>
                 <div class="card-action">
                   <input type="number" min="${token.highestBid + 1}" name="dapp-wei" value="${token.highestBid + 1}" ${token.auctionEnded ? 'disabled' : ''}>
-    		  ${token.name}              
+    		  ${token.category}              
 		  ${token.auctionEnded ? owner : bid}
                   ${token.pendingReturn > 0 ? withdraw : ''}
                   ${token.pendingReturn > 0 ? pendingWithdraw : ''}
@@ -95,9 +117,7 @@ const dApp = {
             </div>`
 		  
           );
-	      // added this 
-	      alert(JSON.stringify(TOKEN_JSON, null, 4));
-	      
+	      	      
 	      
       } catch (e) {
         alert(JSON.stringify(e));
