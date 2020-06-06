@@ -37,13 +37,6 @@ const dApp = {
     for (let i = 1; i <= this.totalSupply; i++) {
       try {
 	      
-	        // ADDED
-		$.getJSON(token_uri, function(data) {
-    			var pCat =  `${data.rCategory}`
-      			document.getElementById("pCategory").innerHTML = pCat
-      			$(".mypanel").html(pCat);
-		});
-		// END ADD	      
 	      
         const token_uri = await this.patentContract.methods.tokenURI(i).call();
         console.log('token uri', token_uri)
@@ -54,9 +47,7 @@ const dApp = {
           highestBid: Number(await this.patentContract.methods.highestBid(i).call()),
           auctionEnded: Boolean(await this.patentContract.methods.auctionEnded(i).call()),
           pendingReturn: Number(await this.patentContract.methods.pendingReturn(i, this.accounts[0]).call()),
-          category: pCat,
-	
-	  auction: new window.web3.eth.Contract(
+          auction: new window.web3.eth.Contract(
             this.auctionJson,
             await this.patentContract.methods.auctions(i).call(),
             { defaultAccount: this.accounts[0] }
