@@ -30,7 +30,8 @@ const dApp = {
         const token_json = await fetchMetadata(token_uri);
         console.log('token json', token_json)
         this.tokens.push({
-          tokenId: i,
+          tkIdp1: i+1,
+	  tokenId: i,
           highestBid: Number(await this.patentContract.methods.highestBid(i).call()),
           auctionEnded: Boolean(await this.patentContract.methods.auctionEnded(i).call()),
           pendingReturn: Number(await this.patentContract.methods.pendingReturn(i, this.accounts[0]).call()),
@@ -74,11 +75,11 @@ const dApp = {
                 <div class="card-image">
                   <img id="dapp-image" src="https://gateway.pinata.cloud/ipfs/${token.image.replace("ipfs://", "")}">
                   <span id="dapp-name" class="card-title">${token.name}</span>
-		  <span id="dapp-tokenid" class="card-title">${token.tokenId}</span>
-                </div>
+		</div>
                 <div class="card-action">
                   <input type="number" min="${token.highestBid + 1}" name="dapp-wei" value="${token.highestBid + 1}" ${token.auctionEnded ? 'disabled' : ''}>
-                  ${token.auctionEnded ? owner : bid}
+                  ${token.tkIdp1}
+		  ${token.auctionEnded ? owner : bid}
                   ${token.pendingReturn > 0 ? withdraw : ''}
                   ${token.pendingReturn > 0 ? pendingWithdraw : ''}
                   ${this.isAdmin && !token.auctionEnded ? endAuction : ''}
