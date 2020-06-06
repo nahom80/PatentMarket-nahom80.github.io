@@ -31,7 +31,6 @@ const dApp = {
         console.log('token json', token_json)
 	console.log('token Category', token_json.rCategory)
         this.tokens.push({
-          tokenCat: token_json.rCategory,
 	  tokenId: i,
           highestBid: Number(await this.patentContract.methods.highestBid(i).call()),
           auctionEnded: Boolean(await this.patentContract.methods.auctionEnded(i).call()),
