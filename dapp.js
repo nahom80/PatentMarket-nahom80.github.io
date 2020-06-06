@@ -79,6 +79,7 @@ const dApp = {
 		
 
 		<span id="dapp-name" class="card-title">${token.name}</span>
+		<span id="dapp-name" class="card-title">${token.tokenURI}</span>
 		
 	                
 		</div>
